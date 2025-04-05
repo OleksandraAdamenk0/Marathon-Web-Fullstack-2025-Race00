@@ -6,14 +6,14 @@ export function clickOnKeyHandler(e) {
     const key = e.key;
 
     keysPressed[key] = true;
-    if (keysPressed['Shift'] && keysPressed['+']) signClicked(e)
-    if (keysPressed['Shift'] && keysPressed['-']) signClicked(e)
+    if (keysPressed['Shift'] && keysPressed['+']) signClicked('+')
+    if (keysPressed['Shift'] && keysPressed['-']) signClicked('-')
 
-    if (!isNaN(key)) numberClicked(e);
-    else if (['+', '-', '*', '/', '%'].includes(key)) operationClicked(e);
-    else if (key === 'Enter') equalClicked(e);
-    else if (key === 'Backspace') clearClicked(e);
-    else if (key === '.') decimalClicked(e);
+    if (!isNaN(key)) numberClicked(key);
+    else if (['+', '-', '*', '/', '%'].includes(key)) operationClicked(key);
+    else if (key === 'Enter') equalClicked();
+    else if (key === 'Backspace') clearClicked();
+    else if (key === '.') decimalClicked();
 }
 
 export function stopClickOnKeyHandler(e) {

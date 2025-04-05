@@ -1,50 +1,51 @@
-export function clearClicked(e) {
+export function clearClicked() {
     // code here
     // clear input field
     // clear active state styles from operation btn if needed
 }
 
-export function operationClicked(e) {
-    console.log(e.target.textContent);
+// operation can be equal to + - / *
+export function operationClicked(operation) {
 
     // code here
     // add active state styles to the operation btn and delete if needed active state styles from other btns
     // do not activate the btn if the last symbol in the input field is not a number
 }
 
-export function equalClicked(e) {
+export function equalClicked() {
 
 }
 
-function powerClicked(e) {
+export function powerClicked() {
 
 }
 
-function squareClicked(e) {
+export function squareClicked() {
 
 }
 
-export function signClicked(e) {
+// sign can be equal to + or -
+export function signClicked(sign) {
     // code here
     // add "-" sign if the input field is clear
 }
 
-function restClicked(e) {
+export function restClicked() {
     // code here
     // add active state styles to the operation btn and delete if needed active state styles from other btns
     // add text from the input field to the memory and clear the input field
     // do not activate the btn if the last symbol in the input field is not a number
 }
 
-export function decimalClicked(e) {
+export function decimalClicked() {
     // code here
     // add decimal point to the input field
     // add 0 before decimal point if there were nothing in the input field
     // do not add decimal point to the input field if it already contains one
 }
 
-export function numberClicked(e) {
-    const number = Number(e.target.textContent);
+// number can be equal to 0 1 2 3 4 5 6 7 8 9
+export function numberClicked(number) {
 
     // code here
     // add number to the input field
