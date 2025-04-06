@@ -1,49 +1,135 @@
+:root {
+  --functional-background: #D6DCD1;
+  --operations-background: #F2C9D4;
+  --mr-background: #e8ddc4;
+  --mc-background: #C1AAAA;
+  --mplus-background: #D0C3BD;
+  --mminus-background: #D0C3BD;
+  --sign-background: #BF9B9B;
+  --square-background: #A66D7C;
+  --power-background: #734058;
+  --equal-background: #594347;
+  --btn-height: 12px;
+  --btn-width: 12px;
+}
+
+[data-theme=light] {
+  --text-color: #D9D9D9;
+  --number-text-color: #1E1E1E;
+  --background-color: #fff;
+  --calculator-background: #F2F2F2;
+  --screen-background: #D9D9D9;
+  --number-background: #D9D9D9;
+  --btn-hover-filter: 90%;
+}
+
+[data-theme=dark] {
+  --text-color: #1E1E1E;
+  --number-text-color: #A66D7C;
+  --background-color: #3B3B3B;
+  --calculator-background: #262626;
+  --screen-background: #1E1E1E;
+  --number-background: #1E1E1E;
+  --btn-hover-filter: 120%;
+}
+
 body {
   margin: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-family: Inter, sans-serif;
+  font-family: "League Spartan", sans-serif;
+  transition: background-color 1s ease, color 1s ease;
+  background: var(--background-color);
+}
+
+h1 {
+  color: var(--text-color);
+  font-family: "League Spartan", sans-serif;
+}
+
+.container {
+  display: flex;
+  gap: 48px;
+  align-items: center;
+  overflow: hidden;
+  margin-left: 150px;
+}
+
+.theme-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--screen-background);
+  border-radius: 48px;
+  padding: 8px;
+}
+.theme-container .switch {
+  background-color: var(--screen-background);
+  border-radius: 24px;
+  width: 80px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+.theme-container .switch .theme-icon {
+  font-size: 24px;
+  color: var(--background-color);
+  transition: color 0.3s ease;
 }
 
 .calculator {
-  background-color: #F2F2F2;
+  background-color: var(--calculator-background);
   padding: 8px;
   width: fit-content;
   border-radius: 48px;
 }
 .calculator .screen {
-  background-color: #D9D9D9;
+  background-color: var(--screen-background);
   height: 180px;
   width: 100%;
   border-radius: 48px;
 }
 .calculator .buttons {
-  background-color: #F2F2F2;
+  background-color: var(--calculator-background);
   width: fit-content;
   border-radius: 48px;
   padding: 16px;
   display: grid;
-  grid-template-columns: repeat(6, 48px);
-  grid-template-rows: repeat(5, 48px);
-  grid-column-gap: 1em;
-  grid-row-gap: 1em;
+  grid-template-columns: repeat(4, 60px) 36px 36px;
+  grid-template-rows: repeat(5, 60px);
+  grid-column-gap: 0.6em;
+  grid-row-gap: 0.6em;
   grid-template-areas: "clear memory_recall memory_clean memory_plus memory_minus memory_minus" "one two three plus sign sign" "four five six minus square square" "seven eight nine multiplication power power" "zero decimal rest division equal equal";
+  justify-items: center;
+  align-items: center;
 }
 .calculator .buttons .btn {
   box-sizing: border-box;
   border-radius: 50%;
-  padding: 8px;
+  padding: 24px;
   display: flex;
   align-items: center;
   justify-content: center;
   line-height: 1;
+  font-weight: bold;
   cursor: pointer;
-  width: 48px;
-  height: 48px;
+  width: 12px;
+  height: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+.calculator .buttons .btn:hover {
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
+  filter: brightness(var(--btn-hover-filter));
 }
 .calculator .buttons .number {
-  background-color: #D9D9D9;
+  color: var(--number-text-color);
+  background-color: var(--number-background);
 }
 .calculator .buttons .operations {
   background-color: #F2C9D4;
@@ -77,29 +163,35 @@ body {
 }
 .calculator .buttons .memory_minus {
   background-color: #D0C3BD;
+  border-radius: 24px;
   grid-area: memory_minus;
 }
 .calculator .buttons .sign {
   background-color: #BF9B9B;
   grid-area: sign;
   border-radius: 24px;
-  width: 96px;
+  width: 24px;
 }
 .calculator .buttons .square {
   background-color: #A66D7C;
   grid-area: square;
   border-radius: 24px;
-  width: 96px;
+  width: 24px;
 }
 .calculator .buttons .power {
   background-color: #734058;
   grid-area: power;
   border-radius: 24px;
-  width: 96px;
+  width: 24px;
 }
 .calculator .buttons .equal {
   background-color: #594347;
   grid-area: equal;
   border-radius: 24px;
-  width: 96px;
+  padding: 24px 43.2px;
+  width: 24px;
+}
+.calculator .buttons .power, .calculator .buttons .square, .calculator .buttons .sign, .calculator .buttons .memory_minus {
+  padding: 24px 28.8px;
+  width: 24px;
 }

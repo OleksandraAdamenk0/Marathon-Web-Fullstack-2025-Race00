@@ -1,4 +1,4 @@
-import {clearClicked, decimalClicked, numberClicked, operationClicked, restClicked} from "./logic";
+import {clearClicked, decimalClicked, numberClicked, operationClicked, restClicked} from "./logic.js";
 
 export function clickOnBtnHandler(e) {
     const target = e.target;
