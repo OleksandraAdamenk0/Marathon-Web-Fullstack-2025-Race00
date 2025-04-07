@@ -1,7 +1,22 @@
-export function printToInput(str) {
-    const input = document.getElementById('input');
-    const oldStr = input.innerText;
-    input.innerText = oldStr + str;
+let defaultSign = "-";
+
+function getInputText() {
+    return document.getElementById('input').innerText;
+}
+
+function setInputText(inputText) {
+    document.getElementById('input').innerText = inputText;
+}
+
+function printToInput(str) {
+    const oldStr = getInputText();
+    setInputText(oldStr + str);
+}
+
+function deleteInput(number) {
+    const input = getInputText();
+    const newline = input.slice(0, -number);
+    setInputText(newline);
 }
 
 export function clearClicked() {
@@ -30,10 +45,33 @@ export function squareClicked() {
 
 }
 
+// пустая строка
+// пробел
+// (+
+
 // sign can be equal to + or -
 export function signClicked(sign) {
     // code here
-    // add "-" sign if the input field is clear
+    const input = getInputText();
+
+    if (input === "" || input.trim() === "" || input.endsWith("(+") || input.endsWith("(-")) {
+        if (input.endsWith("(+") || input.endsWith("(-")) {
+            if (sign === input[input.length - 1]) return true;
+            if (sign === undefined || sign === null) {
+                sign = input[input.length - 1] === "-"? "+" : "-";
+                console.log(sign);
+                defaultSign = sign === "-"? "+" : "-";
+            }
+            deleteInput(1);
+            printToInput(sign);
+            return true;
+        }
+        if (sign === undefined || sign === null) {
+            sign = defaultSign;
+            defaultSign = defaultSign === "-"? "+" : "-";
+        }
+        printToInput(` (${sign}`);
+    }
 }
 
 export function restClicked() {

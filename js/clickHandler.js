@@ -1,4 +1,4 @@
-import {clearClicked, decimalClicked, numberClicked, operationClicked, restClicked} from "./logic.js";
+import {clearClicked, decimalClicked, numberClicked, operationClicked, restClicked, signClicked} from "./logic.js";
 
 export function clickOnBtnHandler(e) {
     const target = e.target;
@@ -8,5 +8,6 @@ export function clickOnBtnHandler(e) {
     else if (target.classList.contains('operations')) operationClicked(e.target.textContent);
     else if (target.classList.contains('rest')) restClicked();
     else if (target.classList.contains('clear')) clearClicked();
+    else if (target.classList.contains('sign')) signClicked();
 
 }

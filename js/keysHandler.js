@@ -7,7 +7,7 @@ export function clickOnKeyHandler(e) {
 
     keysPressed[key] = true;
     if (keysPressed['Shift'] && keysPressed['+']) signClicked('+')
-    if (keysPressed['Shift'] && keysPressed['-']) signClicked('-')
+    if (keysPressed['Shift'] && keysPressed['_']) signClicked('-')
 
     if (!isNaN(key)) numberClicked(key);
     else if (['+', '-', '*', '/', '%'].includes(key)) operationClicked(key);
