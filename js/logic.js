@@ -1,3 +1,9 @@
+export function printToInput(str) {
+    const input = document.getElementById('input');
+    const oldStr = input.innerText;
+    input.innerText = oldStr + str;
+}
+
 export function clearClicked() {
     // code here
     // clear input field
@@ -50,4 +56,6 @@ export function numberClicked(number) {
     // code here
     // add number to the input field
     // do not add 0 if the last symbol in the input field is 0 or division button is active
+
+    printToInput(number);
 }
