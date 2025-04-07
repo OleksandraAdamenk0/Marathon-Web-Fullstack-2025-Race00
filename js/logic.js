@@ -34,7 +34,12 @@ export function clearClicked() {
 }
 
 function multiplication() {
+    const input = getInputText();
+    if (input.length === 0) return false;
+    if (input.endsWith(" ") || input.endsWith("-") || input.endsWith("-") || input.endsWith("√") || input.endsWith("."))
+        return false;
     printToInput(" x ");
+    return true;
 }
 
 // operation can be equal to + - / * x
