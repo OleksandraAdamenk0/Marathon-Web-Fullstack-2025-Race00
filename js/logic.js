@@ -132,12 +132,22 @@ export function restClicked() {
     // do not activate the btn if the last symbol in the input field is not a number
 }
 
-export function decimalClicked() {
-    // code here
+    // code here --------------------------
     // add decimal point to the input field
     // add 0 before decimal point if there were nothing in the input field
     // do not add decimal point to the input field if it already contains one
-}
+    export function decimalClicked() {
+        const input = getInputText();
+
+        if (!input || input === "0" || input.endsWith(" ")) {
+            return printToInput("0.");
+        }
+        const lastPart = input.split(/[\+\-\*\/\x]/).pop();
+    
+        if (!lastPart.includes(".")) {
+            return printToInput(lastPart ? "." : "0.");
+        }
+    }
 
 // number can be equal to 0 1 2 3 4 5 6 7 8 9
 export function numberClicked(number) {
