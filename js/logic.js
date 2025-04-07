@@ -42,7 +42,40 @@ function multiplication() {
     return true;
 }
 
+
 // operation can be equal to + - / * x
+export function operationClicked(operation) {
+    const input = getInputText();
+    const lastChar = input[input.length - 1];
+
+    if (!isNaN(lastChar) || lastChar === ')') {
+        let printableOperation = '';
+
+        switch (operation) {
+            case "*":
+            case "x":
+                multiplication();
+                return; 
+            case "+":
+                printableOperation = " + ";
+                break;
+            case "-":
+                printableOperation = " - ";
+                break;
+            case "/":
+            case "÷":
+            case "division": 
+                printableOperation = " ÷ ";
+                break;
+            default:
+                return;
+        }
+        if (!input.endsWith(' + ') && !input.endsWith(' - ') && !input.endsWith(' x ') && !input.endsWith(' ÷ ')) {
+            printToInput(printableOperation);
+        }
+    }
+}
+/*
 export function operationClicked(operation) {
 
     switch (operation) {
@@ -52,6 +85,7 @@ export function operationClicked(operation) {
     }
 
 }
+*/
 
 export function equalClicked() {
 
