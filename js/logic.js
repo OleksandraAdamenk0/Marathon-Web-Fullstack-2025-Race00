@@ -14,23 +14,38 @@ function printToInput(str) {
 }
 
 function deleteInput(number) {
+    console.log(number);
     const input = getInputText();
     const newline = input.slice(0, -number);
     setInputText(newline);
 }
 
 export function clearClicked() {
-    // code here
-    // clear input field
-    // clear active state styles from operation btn if needed
+    const input = getInputText();
+    if (input.length === 0) return false;
+    if (input.length === 1) {
+        deleteInput(1);
+        return true;
+    }
+    if (input.endsWith(" + ") || input.endsWith(" - ") || input.endsWith(" x ") || input.endsWith(" / ")) deleteInput(3);
+    else if ((input[input.length - 2] === "+" || input[input.length - 2] === "-") && !isNaN(input[input.length - 1])) deleteInput(2);
+    else deleteInput(1);
+    return true;
 }
 
-// operation can be equal to + - / *
+function multiplication() {
+    printToInput(" x ");
+}
+
+// operation can be equal to + - / * x
 export function operationClicked(operation) {
 
-    // code here
-    // add active state styles to the operation btn and delete if needed active state styles from other btns
-    // do not activate the btn if the last symbol in the input field is not a number
+    switch (operation) {
+        case "*":
+        case "x":
+            multiplication();
+    }
+
 }
 
 export function equalClicked() {
@@ -45,21 +60,16 @@ export function squareClicked() {
 
 }
 
-// пустая строка
-// пробел
-// (+
-
 // sign can be equal to + or -
 export function signClicked(sign) {
     // code here
     const input = getInputText();
 
-    if (input === "" || input.trim() === "" || input.endsWith("(+") || input.endsWith("(-")) {
-        if (input.endsWith("(+") || input.endsWith("(-")) {
+    if (input === "" || input.trim() === "" || input.endsWith("+") || input.endsWith("-")) {
+        if (input.endsWith("+") || input.endsWith("-")) {
             if (sign === input[input.length - 1]) return true;
             if (sign === undefined || sign === null) {
                 sign = input[input.length - 1] === "-"? "+" : "-";
-                console.log(sign);
                 defaultSign = sign === "-"? "+" : "-";
             }
             deleteInput(1);
@@ -70,8 +80,10 @@ export function signClicked(sign) {
             sign = defaultSign;
             defaultSign = defaultSign === "-"? "+" : "-";
         }
-        printToInput(` (${sign}`);
+        printToInput(` ${sign}`);
+        return true;
     }
+    return false;
 }
 
 export function restClicked() {
