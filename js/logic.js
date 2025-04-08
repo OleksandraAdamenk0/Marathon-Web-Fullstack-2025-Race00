@@ -20,7 +20,8 @@ function deleteInput(number) {
     setInputText(newline);
 }
 
-export function clearClicked() {
+//изменила ниже
+/*export function clearClicked() {
     const input = getInputText();
     if (input.length === 0) return false;
     if (input.length === 1) {
@@ -32,6 +33,25 @@ export function clearClicked() {
     else deleteInput(1);
     return true;
 }
+*/
+export function clearClicked() {
+    const input = getInputText();
+    document.querySelector('.output-line').innerText = "0";
+    if (input.length === 0) return false;
+
+    if (input.length === 1) {
+        deleteInput(1);
+        return true;
+    }
+    input.endsWith(" + ") || input.endsWith(" - ") || input.endsWith(" x ") || input.endsWith(" / ")
+        ? deleteInput(3) 
+        : (input[input.length - 2] === "+" || input[input.length - 2] === "-") && !isNaN(input[input.length - 1])
+        ? deleteInput(2) 
+        : deleteInput(1); 
+
+    return true;
+}
+
 
 function multiplication() {
     const input = getInputText();
@@ -44,6 +64,17 @@ function multiplication() {
 
 
 // operation can be equal to + - / * x
+/*
+export function operationClicked(operation) {
+
+    switch (operation) {
+        case "*":
+        case "x":
+            multiplication();
+    }
+
+}
+*/
 export function operationClicked(operation) {
     const input = getInputText();
     const lastChar = input[input.length - 1];
@@ -75,20 +106,35 @@ export function operationClicked(operation) {
         }
     }
 }
-/*
-export function operationClicked(operation) {
-
-    switch (operation) {
-        case "*":
-        case "x":
-            multiplication();
-    }
-
-}
-*/
-
+//додала
 export function equalClicked() {
+    const input = getInputText();
 
+    document.querySelector('.output-line').innerText = 
+        !input || input.trim() === "" || (!isNaN(input.trim()) && input.trim() !== "") 
+        ? "0" 
+        : processExpression(input); 
+}
+function processExpression(input) {
+    try {
+        const expression = input
+            .replace(/x/g, '*') 
+            .replace(/÷/g, '/')       
+            .replace(/√/g, 'Math.sqrt')  
+            .replace(/–/g, '-')      
+            // .replace(/%/g, '/100') 
+            // .replace(/x\^n/g, '**') 
+        if (expression.includes('Math.sqrt(')) {
+            const match = expression.match(/Math\.sqrt\(([^)]+)\)/);
+            if (match && parseFloat(match[1]) < 0) {
+                return "Indeterminate"; 
+            }
+        }
+        const result = Function(`return (${expression})`)(); 
+        return !isFinite(result) ? "Indeterminate" : result;
+    } catch (err) {
+        return "Indeterminate"; 
+    }
 }
 
 export function powerClicked() {
