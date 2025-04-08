@@ -4,7 +4,8 @@ import {
     numberClicked,
     operationClicked,
     restClicked,
-    signClicked
+    signClicked,
+    equalClicked //додала
 } from "./logic.js";
 
 export function clickOnBtnHandler(e) {
@@ -16,4 +17,6 @@ export function clickOnBtnHandler(e) {
     else if (target.classList.contains('rest')) restClicked();
     else if (target.classList.contains('clear')) clearClicked();
     else if (target.classList.contains('sign')) signClicked();
+    else if (target.classList.contains('equal')) equalClicked();//додала
+
 }
