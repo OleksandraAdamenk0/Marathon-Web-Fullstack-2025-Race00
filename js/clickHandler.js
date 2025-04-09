@@ -1,6 +1,7 @@
 import {
     clearClicked,
     decimalClicked,
+    equalClicked,
     numberClicked,
     operationClicked,
     signClicked,
@@ -17,4 +18,5 @@ export function clickOnBtnHandler(e) {
     else if (target.classList.contains('clear')) clearClicked();
     else if (target.classList.contains('sign')) signClicked();
     else if (target.classList.contains('square')) squareClicked();
+    else if (target.classList.contains('equal')) equalClicked();
 }
