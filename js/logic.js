@@ -42,13 +42,25 @@ function multiplication() {
     return true;
 }
 
-// operation can be equal to + - / * x
+function rest() {
+    const input = getInputText();
+    if (input.length === 0) return false;
+    if (input.endsWith(" ") || input.endsWith("-") || input.endsWith("-") || input.endsWith("√") || input.endsWith("."))
+        return false;
+    printToInput(" % ");
+    return true;
+}
+
+// operation can be equal to + - / * x %
 export function operationClicked(operation) {
 
     switch (operation) {
         case "*":
         case "x":
             multiplication();
+            break;
+        case "%":
+            rest();
     }
 
 }
@@ -62,7 +74,23 @@ export function powerClicked() {
 }
 
 export function squareClicked() {
+    const input = getInputText();
+    if (input === "" || input.trim() === "" || input.endsWith("+") || input.endsWith("-")) {
+        printToInput("√");
+        console.log("test");
+        return true
+    }
 
+    const lastSpace = input.lastIndexOf(" ");
+    let currentNumber;
+
+    if (lastSpace === -1) currentNumber = input;
+    else currentNumber = input.slice(lastSpace + 1);
+    if (currentNumber[0] === "√") return;
+    if (currentNumber[0] === "-" || currentNumber[0] === "+") currentNumber = currentNumber.slice(1);
+
+    deleteInput(currentNumber.length);
+    printToInput("√" + currentNumber);
 }
 
 // sign can be equal to + or -
@@ -88,14 +116,30 @@ export function signClicked(sign) {
         printToInput(` ${sign}`);
         return true;
     }
-    return false;
-}
+    // number or √
+    const lastSpace = input.lastIndexOf(" ");
+    let currentNumber;
 
-export function restClicked() {
-    // code here
-    // add active state styles to the operation btn and delete if needed active state styles from other btns
-    // add text from the input field to the memory and clear the input field
-    // do not activate the btn if the last symbol in the input field is not a number
+    if (lastSpace === -1) currentNumber = input;
+    else currentNumber = input.slice(lastSpace + 1);
+    if (currentNumber[0] === sign) return false;
+    deleteInput(currentNumber.length);
+    if (sign === undefined || sign === null) {
+        if (currentNumber[0] === "-") {
+            sign = "+"
+            currentNumber = currentNumber.slice(1);
+        }
+        else if (currentNumber[0] === "+") {
+            sign = "-";
+            currentNumber = currentNumber.slice(1);
+        }
+        else {
+            sign = defaultSign;
+            defaultSign = defaultSign === "-"? "+" : "-";
+        }
+    }
+    printToInput(`${sign}${currentNumber}`)
+    return false;
 }
 
 export function decimalClicked() {
@@ -114,3 +158,5 @@ export function numberClicked(number) {
 
     printToInput(number);
 }
+
+
