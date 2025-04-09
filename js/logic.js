@@ -20,7 +20,6 @@ function printToInput(str) {
 
 function deleteInput(number) {
     if (number === 0) return;
-    console.log(number);
     const input = getInputText();
     const newline = input.slice(0, -number);
     setInputText(newline);
