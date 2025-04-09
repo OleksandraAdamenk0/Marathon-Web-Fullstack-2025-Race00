@@ -208,5 +208,3 @@ export function numberClicked(number) {
     if (number === "0" && input === "") printToInput("0.")
     else printToInput(number);
 }
-
-
