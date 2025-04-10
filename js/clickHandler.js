@@ -6,6 +6,7 @@ import {
     operationClicked,
     signClicked,
     squareClicked,
+    bracketsClicked 
 } from "./logic.js";
 
 export function clickOnBtnHandler(e) {
@@ -20,4 +21,5 @@ export function clickOnBtnHandler(e) {
     else if (target.classList.contains('equal')) equalClicked();
     else if (target.classList.contains('square')) squareClicked();
     else if (target.classList.contains('equal')) equalClicked();
+    else if (target.classList.contains('brackets')) bracketsClicked(e.target.dataset.type); 
 }
