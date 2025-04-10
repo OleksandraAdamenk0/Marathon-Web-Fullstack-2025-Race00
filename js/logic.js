@@ -207,3 +207,16 @@ export function numberClicked(number) {
     if (number === "0" && input === "") printToInput("0.")
     else printToInput(number);
 }
+
+// brackets ()
+export function bracketsClicked(t) {
+    const s = getInputText();
+    let o = 0, c = 0;
+
+    if (t === 'open' && (s === "" || !isNaN(s[s.length - 1]) || s[s.length - 1] === ')')) return printToInput('(');
+    
+    if (t === 'close') {
+        for (let i of s) { if (i === '(') o++; if (i === ')') c++; }
+        if (o > c && !isNaN(s[s.length - 1]) && s[s.length - 1] !== ' ') return printToInput(')');
+    }
+} 
