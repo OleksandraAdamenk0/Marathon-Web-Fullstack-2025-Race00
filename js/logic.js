@@ -6,7 +6,7 @@ let power = false;
 let memory = 0;
 
 function getInputText() {
-    return document.getElementById('input').innerText;
+    return document.getElementById('input').innerHTML;
 }
 
 function setCursor() {
@@ -17,7 +17,7 @@ function setCursor() {
 
 function setInputText(inputText) {
     document.getElementById('input').innerHTML = inputText;
-    setCursor();
+    // setCursor();
 }
 
 function setOutputText(outputText) {
@@ -27,20 +27,23 @@ function setOutputText(outputText) {
 }
 
 function printToInput(str) {
-    const oldStr = getInputText();
-    const newText = power ? oldStr + `<sup>${str}</sup>` : oldStr + str;
-    setInputText(newText);
-
+    console.log("print to input, str: ", str);
     historyString += str;
-}
-
-function deleteFromStartInput(number) {
-    if (number === 0) return;
-    const input = getInputText();
-    const newline = input.slice(number);
-    setInputText(newline);
-
-    historyString = historyString.slice(number);
+    const indexParts = historyString.split("^");
+    console.log(indexParts);
+    setInputText("");
+    for (let i = 0; i < indexParts.length; i++) {
+        const content =  indexParts[i];
+        if (i % 2 === 1) {
+            console.log(getInputText());
+            setInputText(getInputText() + `<sup>${content}</sup>`);
+            console.log("sup part: ", `<sup>${content}</sup>`)
+        }
+        else {
+            console.log("content: ", content);
+            setInputText(getInputText() + content);
+        }
+    }
 }
 
 function deleteFromEndInput(number) {
@@ -130,7 +133,8 @@ export function clearClicked() {
 export function operationClicked(operation) {
     const input = getInputText();
     if (input.length === 0) return false;
-    if (isNaN(input[input.length - 1]) && input[input.length - 1] !== ")") return false;
+    console.log("operation clicked:", input);
+    if (isNaN(input[input.length - 1]) && input[input.length - 1] !== ")" && !input.endsWith("</sup>")) return false;
 
     switch (operation) {
         case "*":
@@ -168,10 +172,12 @@ export function equalClicked() {
 
 export function powerClicked() {
     const input = getInputText();
-    if (input === "" || isNaN(input[input.length - 1])) return false;
+    console.log("power clicked:", input);
+    if ((input === "" || isNaN(input[input.length - 1]) && !input.endsWith("</sup>"))) return false;
     power = !power;
-    historyString += "^";
-    setInputText(getInputText());
+    historyString = historyString +  "^";
+    console.log("power log: ", historyString);
+    // printToInput("");
 }
 
 export function squareClicked() {

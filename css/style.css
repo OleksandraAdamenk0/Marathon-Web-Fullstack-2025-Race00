@@ -121,6 +121,9 @@ h1 {
   flex-wrap: wrap;
   color: var(--input-text-color);
 }
+sup {
+  margin-bottom: 8px;
+}
 .blinking-cursor {
   display: inline-block;
   margin-bottom: 2px;
