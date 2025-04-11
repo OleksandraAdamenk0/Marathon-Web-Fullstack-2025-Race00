@@ -56,7 +56,12 @@ function setMemoryNumber(input) {
     memory = input;
 }
 
-export function MRClicked() { numberClicked(memory); }
+export function MRClicked() {
+    const input = getInputText();
+    if (input.length !== 0 && !input.endsWith(" ") && !input.endsWith("√")) return false;
+    numberClicked(memory);
+    return true;
+}
 
 export function MCClicked() { setMemoryNumber(0); }
 
