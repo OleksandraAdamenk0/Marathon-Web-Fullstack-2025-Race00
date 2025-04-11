@@ -50,7 +50,7 @@ export function clearClicked() {
 export function operationClicked(operation) {
     const input = getInputText();
     if (input.length === 0) return false;
-    if (isNaN(input[input.length - 1])) return false;
+    if (isNaN(input[input.length - 1]) && input[input.length - 1] !== ")") return false;
 
     switch (operation) {
         case "*":
