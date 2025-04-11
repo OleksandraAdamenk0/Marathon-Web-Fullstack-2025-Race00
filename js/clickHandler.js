@@ -6,7 +6,7 @@ import {
     operationClicked,
     signClicked,
     squareClicked,
-    bracketsClicked 
+    bracketsClicked, MCClicked, MRClicked, MPlusClicked, MMinusClicked
 } from "./logic.js";
 
 export function clickOnBtnHandler(e) {
@@ -21,5 +21,11 @@ export function clickOnBtnHandler(e) {
     else if (target.classList.contains('equal')) equalClicked();
     else if (target.classList.contains('square')) squareClicked();
     else if (target.classList.contains('equal')) equalClicked();
-    else if (target.classList.contains('brackets')) bracketsClicked(e.target.dataset.type); 
+    else if (target.classList.contains('brackets')) bracketsClicked(e.target.dataset.type);
+    else if (target.classList.contains('memory_clean')) MCClicked();
+    else if (target.classList.contains('memory_recall')) MRClicked();
+    else if (target.classList.contains('memory_plus')) MPlusClicked();
+    else if (target.classList.contains('memory_minus')) MMinusClicked();
+
+
 }

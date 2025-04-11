@@ -1,4 +1,5 @@
 let defaultSign = "-";
+let memory = 0;
 
 function getInputText() {
     return document.getElementById('input').innerText;
@@ -27,6 +28,50 @@ function deleteInput(number) {
 
 function clearOutput() {
     document.querySelector('.output-line').innerText = "0";
+}
+
+function processExpression(input) {
+    try {
+        const expression = input
+            .replace(/x/g, '*')
+            .replace(/÷/g, '/')
+            .replace(/√(-?\d+(\.\d+)?)/g, 'Math.sqrt($1)')
+            .replace(/–/g, '-');
+        // .replace(/%/g, '/100')
+        // .replace(/x\^n/g, '**')
+        if (expression.includes('Math.sqrt(')) {
+            const match = expression.match(/Math\.sqrt\(([^)]+)\)/);
+            if (match && parseFloat(match[1]) < 0) {
+                return "Indeterminate";
+            }
+        }
+        const result = Function(`return (${expression})`)();
+        return !isFinite(result) ? "Indeterminate" : result;
+    } catch (err) {
+        return "Indeterminate";
+    }
+}
+
+function setMemoryNumber(input) {
+    memory = input;
+}
+
+export function MRClicked() { numberClicked(memory); }
+
+export function MCClicked() { setMemoryNumber(0); }
+
+export function MPlusClicked() {
+    const input = getInputText();
+    const result = processExpression(input);
+    const newMemory = result + memory;
+    setMemoryNumber(newMemory);
+}
+
+export function MMinusClicked() {
+    const input = getInputText();
+    const result = processExpression(input);
+    const newMemory = memory - result;
+    setMemoryNumber(newMemory);
 }
 
 export function clearClicked() {
@@ -83,28 +128,6 @@ export function equalClicked() {
         ? "0"
         : processExpression(input));
 
-}
-
-function processExpression(input) {
-    try {
-        const expression = input
-            .replace(/x/g, '*')
-            .replace(/÷/g, '/')
-            .replace(/√(-?\d+(\.\d+)?)/g, 'Math.sqrt($1)')
-            .replace(/–/g, '-');
-        // .replace(/%/g, '/100')
-        // .replace(/x\^n/g, '**')
-        if (expression.includes('Math.sqrt(')) {
-            const match = expression.match(/Math\.sqrt\(([^)]+)\)/);
-            if (match && parseFloat(match[1]) < 0) {
-                return "Indeterminate";
-            }
-        }
-        const result = Function(`return (${expression})`)();
-        return !isFinite(result) ? "Indeterminate" : result;
-    } catch (err) {
-        return "Indeterminate";
-    }
 }
 
 export function powerClicked() {
