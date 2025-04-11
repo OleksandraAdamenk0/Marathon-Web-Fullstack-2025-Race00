@@ -301,10 +301,19 @@ sup {
 
 
 @keyframes flash-equal {
-  0%   { background-color: var(--equal-background); }
+  0%   {
+    background-color: var(--equal-background);
+    transform: scale(0.5);
+  }
   10%  { background-color: #ec920b; }
+  50% {
+    transform: scale(1.5);
+  }
   90%  { background-color: var(--power-background); }
-  95% { background-color: var(--equal-background); }
+  95% {
+    background-color: var(--equal-background);
+    transform: scale(1);
+  }
 }
 
 @keyframes flash-btn {

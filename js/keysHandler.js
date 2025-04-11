@@ -20,7 +20,7 @@ export function clickOnKeyHandler(e) {
     else if (keysPressed['Shift'] && keysPressed[')']) bracketsClicked('close')
     else if (!isNaN(key)) numberClicked(key);
     else if (['-', '*', '/', '%'].includes(key)) operationClicked(key);
-    else if (key === '=') numberClicked('+');
+    else if (key === '=') operationClicked('+');
     else if (key === 'Enter') equalClicked();
     else if (key === 'Backspace') clearClicked();
     else if (key === '.') decimalClicked();

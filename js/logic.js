@@ -27,20 +27,15 @@ function setOutputText(outputText) {
 }
 
 function printToInput(str) {
-    console.log("print to input, str: ", str);
     historyString += str;
     const indexParts = historyString.split("^");
-    console.log(indexParts);
     setInputText("");
     for (let i = 0; i < indexParts.length; i++) {
         const content =  indexParts[i];
         if (i % 2 === 1) {
-            console.log(getInputText());
             setInputText(getInputText() + `<sup>${content}</sup>`);
-            console.log("sup part: ", `<sup>${content}</sup>`)
         }
         else {
-            console.log("content: ", content);
             setInputText(getInputText() + content);
         }
     }
@@ -65,8 +60,6 @@ function processExpression() {
 
         const pattern = /([0-9.]+|\([^()]+\))\^([^]+?)\^/g;
         expression = expression.replace(pattern, 'Math.pow($1, $2)');
-
-        console.log("expression with pow", expression);
 
         if (expression.includes('Math.sqrt(')) {
             const match = expression.match(/Math\.sqrt\(([^)]+)\)/);
@@ -109,23 +102,18 @@ export function MMinusClicked() {
 
 export function clearClicked() {
     setOutputText("0");
-    const input = getInputText();
-    if (input.length === 0) return false;
-    if (historyString.endsWith("^")){
-        historyString = historyString.slice(0, -1);
-        power = !power;
-        return true;
-    }
-    if (input.endsWith(" + ") ||
-        input.endsWith(" - ") ||
-        input.endsWith(" x ") ||
-        input.endsWith(" ÷ ") ||
-        input.endsWith(" % "))
+    if (historyString.length === 0) return false;
+    if (historyString.endsWith(" + ") ||
+        historyString.endsWith(" - ") ||
+        historyString.endsWith(" x ") ||
+        historyString.endsWith(" ÷ ") ||
+        historyString.endsWith(" % "))
         deleteFromEndInput(3);
-    else if ((input[input.length - 2] === "+" || input[input.length - 2] === "-") &&
-        !isNaN(input[input.length - 1]))
+    else if ((historyString[historyString.length - 2] === "+" || historyString[historyString.length - 2] === "-" || historyString[historyString.length - 2] === "^") &&
+        !isNaN(historyString[historyString.length - 1]))
         deleteFromEndInput(2);
     else deleteFromEndInput(1);
+    printToInput("");
     return true;
 }
 
@@ -133,7 +121,6 @@ export function clearClicked() {
 export function operationClicked(operation) {
     const input = getInputText();
     if (input.length === 0) return false;
-    console.log("operation clicked:", input);
     if (isNaN(input[input.length - 1]) && input[input.length - 1] !== ")" && !input.endsWith("</sup>")) return false;
 
     switch (operation) {
@@ -162,7 +149,6 @@ export function operationClicked(operation) {
 
 export function equalClicked() {
     const input = getInputText();
-    console.log((input.split(" ").length <= 1 && !input.startsWith('√')))
     if (!input || input === "" || input.trim() === "" ) return false;
     if (input.endsWith('-') || input.endsWith('+') || input.endsWith('√')) setOutputText("0");
     else if (input.split(" ").length <= 1 && !input.startsWith('√') && !historyString.includes('^')) setOutputText(input);
@@ -172,11 +158,9 @@ export function equalClicked() {
 
 export function powerClicked() {
     const input = getInputText();
-    console.log("power clicked:", input);
     if ((input === "" || isNaN(input[input.length - 1]) && !input.endsWith("</sup>"))) return false;
     power = !power;
     historyString = historyString +  "^";
-    console.log("power log: ", historyString);
     // printToInput("");
 }
 
