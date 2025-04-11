@@ -130,11 +130,11 @@ h1 {
   border-radius: 48px;
   padding: 16px;
   display: grid;
-  grid-template-columns: repeat(4, 60px) 36px 36px;
-  grid-template-rows: repeat(5, 60px);
+  grid-template-columns: 60px 60px 30px calc(30px - 0.6em) 60px 36px 36px;
+  grid-template-rows: repeat(6, 60px);
   grid-column-gap: 0.6em;
   grid-row-gap: 0.6em;
-  grid-template-areas: "clear memory_recall memory_clean memory_plus memory_minus memory_minus" "one two three plus sign sign" "four five six minus square square" "seven eight nine multiplication power power" "zero decimal rest division equal equal";
+  grid-template-areas: "clear memory_recall memory_clean memory_clean memory_plus memory_minus memory_minus" "one two three three plus sign sign" "four five six six minus square square" "seven eight nine nine multiplication power power" "zero decimal rest rest division equal equal" "open open open close close close close";
   justify-items: center;
   align-items: center;
 }
@@ -158,6 +158,39 @@ h1 {
 .calculator .buttons .btn:hover {
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.1);
   filter: brightness(var(--btn-hover-filter));
+}
+.calculator .buttons .btn:active {
+  animation: flash-btn 2s forwards;
+}
+.calculator .buttons .one {
+  grid-area: one;
+}
+.calculator .buttons .two {
+  grid-area: two;
+}
+.calculator .buttons .three {
+  grid-area: three;
+}
+.calculator .buttons .four {
+  grid-area: four;
+}
+.calculator .buttons .five {
+  grid-area: five;
+}
+.calculator .buttons .six {
+  grid-area: six;
+}
+.calculator .buttons .seven {
+  grid-area: seven;
+}
+.calculator .buttons .eight {
+  grid-area: eight;
+}
+.calculator .buttons .nine {
+  grid-area: nine;
+}
+.container .buttons .rest {
+  grid-area: rest;
 }
 .calculator .buttons .number {
   color: var(--number-text-color);
@@ -223,22 +256,51 @@ h1 {
   padding: 24px 43.2px;
   width: 24px;
 }
+
+.calculator .buttons .equal:active {
+  animation: flash-equal 2s forwards;
+}
+
 .calculator .buttons .power, .calculator .buttons .square, .calculator .buttons .sign, .calculator .buttons .memory_minus {
   padding: 24px 28.8px;
   width: 24px;
 }
 
 .calculator .buttons .brackets[data-type="open"] {
-  transform: translateX(132px); 
+  grid-area: open;
+  justify-self: end;
+  margin-right: 0.6em;
   width: 90px;
   border-radius: 24px;
-  margin-left: -90px;
   background-color: #D9BFC1;
 }
 
 .calculator .buttons .brackets[data-type="close"] {
-  transform: translateX(132px); 
+  grid-area: close;
+  justify-self: start;
   width: 90px;
   border-radius: 24px;
   background-color: #D9BFC1;
-} 
+}
+
+
+@keyframes flash-equal {
+  0%   { background-color: var(--equal-background); }
+  10%  { background-color: #ec920b; }
+  90%  { background-color: var(--power-background); }
+  95% { background-color: var(--equal-background); }
+}
+
+@keyframes flash-btn {
+  0%   {
+    filter: brightness(calc(var(--btn-hover-filter) * 1.2));
+    transform: scale(0.5);
+  }
+  50% {
+    transform: scale(1.5);
+  }
+  95% {
+    filter: brightness(calc(var(--btn-hover-filter)));
+    transform: scale(1);
+  }
+}
