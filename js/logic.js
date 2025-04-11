@@ -7,8 +7,14 @@ function getInputText() {
     return document.getElementById('input').innerText;
 }
 
+function setCursor() {
+    const content = document.getElementById('input').innerHTML;
+    document.getElementById('input').innerHTML = content + `<span class="blinking-cursor"></span>`;
+}
+
 function setInputText(inputText) {
     document.getElementById('input').innerText = inputText;
+    setCursor();
 }
 
 function setOutputText(outputText) {

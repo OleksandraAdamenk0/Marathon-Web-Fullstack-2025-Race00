@@ -116,7 +116,20 @@ h1 {
   font-weight: bold;
   letter-spacing: 1px;
   font-size: 16px;
+  max-width: 392px;
+  display: flex;
+  flex-wrap: wrap;
   color: var(--input-text-color);
+}
+.blinking-cursor {
+  display: inline-block;
+  margin-bottom: 2px;
+  width: 2px;
+  height: 0.8em;
+  margin-left: 2px;
+  background-color: var(--input-text-color);
+  animation: blink 1s step-start infinite;
+  vertical-align: bottom;
 }
 .calculator .screen .output-line {
   font-family: "League Spartan", sans-serif;
@@ -302,5 +315,11 @@ h1 {
   95% {
     filter: brightness(calc(var(--btn-hover-filter)));
     transform: scale(1);
+  }
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
   }
 }
