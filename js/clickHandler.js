@@ -6,7 +6,7 @@ import {
     operationClicked,
     signClicked,
     squareClicked,
-    bracketsClicked, MCClicked, MRClicked, MPlusClicked, MMinusClicked
+    bracketsClicked, MCClicked, MRClicked, MPlusClicked, MMinusClicked, powerClicked, logHistory
 } from "./logic.js";
 
 export function clickOnBtnHandler(e) {
@@ -26,6 +26,6 @@ export function clickOnBtnHandler(e) {
     else if (target.classList.contains('memory_recall')) MRClicked();
     else if (target.classList.contains('memory_plus')) MPlusClicked();
     else if (target.classList.contains('memory_minus')) MMinusClicked();
-
-
+    else if (target.classList.contains('power')) powerClicked();
+    logHistory();
 }

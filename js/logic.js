@@ -1,6 +1,8 @@
 import {writeMemory} from "./memory.js";
 
+let historyString = "";
 let defaultSign = "-";
+let power = false;
 let memory = 0;
 
 function getInputText() {
@@ -9,33 +11,45 @@ function getInputText() {
 
 function setCursor() {
     const content = document.getElementById('input').innerHTML;
-    document.getElementById('input').innerHTML = content + `<span class="blinking-cursor"></span>`;
+    const cursorText = power? `<sup><span class="blinking-cursor"></span></sup>` : `<span class="blinking-cursor"></span>`;
+    document.getElementById('input').innerHTML = content + cursorText;
 }
 
 function setInputText(inputText) {
-    document.getElementById('input').innerText = inputText;
+    document.getElementById('input').innerHTML = inputText;
     setCursor();
 }
 
 function setOutputText(outputText) {
     if (String(outputText).length > 12) document.getElementById('output').style.fontSize = "24px";
+    else document.getElementById('output').style.fontSize = "48px"
     document.getElementById('output').innerText = outputText;
 }
 
 function printToInput(str) {
     const oldStr = getInputText();
-    setInputText(oldStr + str);
+    const newText = power ? oldStr + `<sup>${str}</sup>` : oldStr + str;
+    setInputText(newText);
+
+    historyString += str;
 }
 
-function deleteInput(number) {
+function deleteFromStartInput(number) {
+    if (number === 0) return;
+    const input = getInputText();
+    const newline = input.slice(number);
+    setInputText(newline);
+
+    historyString = historyString.slice(number);
+}
+
+function deleteFromEndInput(number) {
     if (number === 0) return;
     const input = getInputText();
     const newline = input.slice(0, -number);
     setInputText(newline);
-}
 
-function clearOutput() {
-    document.querySelector('.output-line').innerText = "0";
+    historyString = historyString.slice(0, -number);
 }
 
 function processExpression(input) {
@@ -45,8 +59,6 @@ function processExpression(input) {
             .replace(/÷/g, '/')
             .replace(/√(-?\d+(\.\d+)?)/g, 'Math.sqrt($1)')
             .replace(/–/g, '-');
-        // .replace(/%/g, '/100')
-        // .replace(/x\^n/g, '**')
         if (expression.includes('Math.sqrt(')) {
             const match = expression.match(/Math\.sqrt\(([^)]+)\)/);
             if (match && parseFloat(match[1]) < 0) {
@@ -89,19 +101,24 @@ export function MMinusClicked() {
 }
 
 export function clearClicked() {
-    clearOutput();
+    setOutputText("0");
     const input = getInputText();
     if (input.length === 0) return false;
+    if (historyString.endsWith("^")){
+        historyString = historyString.slice(0, -1);
+        power = !power;
+        return true;
+    }
     if (input.endsWith(" + ") ||
         input.endsWith(" - ") ||
         input.endsWith(" x ") ||
         input.endsWith(" ÷ ") ||
         input.endsWith(" % "))
-        deleteInput(3);
+        deleteFromEndInput(3);
     else if ((input[input.length - 2] === "+" || input[input.length - 2] === "-") &&
         !isNaN(input[input.length - 1]))
-        deleteInput(2);
-    else deleteInput(1);
+        deleteFromEndInput(2);
+    else deleteFromEndInput(1);
     return true;
 }
 
@@ -137,15 +154,18 @@ export function operationClicked(operation) {
 
 export function equalClicked() {
     const input = getInputText();
-
-    setOutputText(!input || input.trim() === "" || (!isNaN(input.trim()) && input.trim() !== "")
-        ? "0"
-        : processExpression(input));
+    console.log((input.split(" ").length <= 1 && !input.startsWith('√')))
+    if (!input || input === "" || input.trim() === "" ) return false;
+    if (input.endsWith('-') || input.endsWith('+') || input.endsWith('√')) setOutputText("0");
+    else if (input.split(" ").length <= 1 && !input.startsWith('√')) setOutputText(input);
+    else setOutputText(processExpression(input));
 
 }
 
 export function powerClicked() {
-
+    power = !power;
+    historyString += "^";
+    setInputText(getInputText());
 }
 
 export function squareClicked() {
@@ -160,7 +180,7 @@ export function squareClicked() {
 
     if (lastSpace === -1) currentNumber = input;
     else currentNumber = input.slice(lastSpace + 1);
-    deleteInput(currentNumber.length);
+    deleteFromEndInput(currentNumber.length);
     if (currentNumber.startsWith("-√") || currentNumber.startsWith("+√")) {
         currentNumber = currentNumber.slice(2);
         printToInput(currentNumber);
@@ -188,7 +208,7 @@ export function signClicked(sign) {
                 sign = input[input.length - 1] === "-"? "+" : "-";
                 defaultSign = sign === "-"? "+" : "-";
             }
-            deleteInput(1);
+            deleteFromEndInput(1);
             printToInput(sign);
             return true;
         }
@@ -208,7 +228,7 @@ export function signClicked(sign) {
 
     if (currentNumber[0] === sign) return false;
     if (currentNumber[0] === "(") currentNumber = currentNumber.slice(1);
-    deleteInput(currentNumber.length);
+    deleteFromEndInput(currentNumber.length);
 
     if (sign === undefined || sign === null) {
         if (currentNumber[0] === "-") {
@@ -262,3 +282,7 @@ export function bracketsClicked(t) {
         if (o > c && !isNaN(s[s.length - 1]) && s[s.length - 1] !== ' ') return printToInput(')');
     }
 } 
+
+export function logHistory() {
+    console.log(historyString);
+}
