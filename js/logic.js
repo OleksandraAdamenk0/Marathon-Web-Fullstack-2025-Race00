@@ -52,13 +52,19 @@ function deleteFromEndInput(number) {
     historyString = historyString.slice(0, -number);
 }
 
-function processExpression(input) {
+function processExpression() {
     try {
-        const expression = input
+        let expression = historyString
             .replace(/x/g, '*')
             .replace(/÷/g, '/')
             .replace(/√(-?\d+(\.\d+)?)/g, 'Math.sqrt($1)')
             .replace(/–/g, '-');
+
+        const pattern = /([0-9.]+|\([^()]+\))\^([^]+?)\^/g;
+        expression = expression.replace(pattern, 'Math.pow($1, $2)');
+
+        console.log("expression with pow", expression);
+
         if (expression.includes('Math.sqrt(')) {
             const match = expression.match(/Math\.sqrt\(([^)]+)\)/);
             if (match && parseFloat(match[1]) < 0) {
@@ -87,15 +93,13 @@ export function MRClicked() {
 export function MCClicked() { setMemoryNumber(0); }
 
 export function MPlusClicked() {
-    const input = getInputText();
-    const result = processExpression(input);
+    const result = processExpression();
     const newMemory = result + memory;
     setMemoryNumber(newMemory);
 }
 
 export function MMinusClicked() {
-    const input = getInputText();
-    const result = processExpression(input);
+    const result = processExpression();
     const newMemory = memory - result;
     setMemoryNumber(newMemory);
 }
@@ -157,12 +161,14 @@ export function equalClicked() {
     console.log((input.split(" ").length <= 1 && !input.startsWith('√')))
     if (!input || input === "" || input.trim() === "" ) return false;
     if (input.endsWith('-') || input.endsWith('+') || input.endsWith('√')) setOutputText("0");
-    else if (input.split(" ").length <= 1 && !input.startsWith('√')) setOutputText(input);
-    else setOutputText(processExpression(input));
+    else if (input.split(" ").length <= 1 && !input.startsWith('√') && !historyString.includes('^')) setOutputText(input);
+    else setOutputText(processExpression());
 
 }
 
 export function powerClicked() {
+    const input = getInputText();
+    if (input === "" || isNaN(input[input.length - 1])) return false;
     power = !power;
     historyString += "^";
     setInputText(getInputText());
