@@ -8,10 +8,12 @@ import {
     squareClicked,
     bracketsClicked, MCClicked, MRClicked, MPlusClicked, MMinusClicked, powerClicked, logHistory
 } from "./logic.js";
+import {toggleActiveBtn} from "./dom.js";
 
 export function clickOnBtnHandler(e) {
     const target = e.target;
     if (!target.classList.contains('btn')) return;
+    if (target.classList.contains("blocked-btn")) return;
     if (target.classList.contains('number')) numberClicked(e.target.textContent);
     else if(target.classList.contains('decimal')) decimalClicked();
     else if (target.classList.contains('operations')) operationClicked(e.target.textContent);
@@ -26,6 +28,6 @@ export function clickOnBtnHandler(e) {
     else if (target.classList.contains('memory_recall')) MRClicked();
     else if (target.classList.contains('memory_plus')) MPlusClicked();
     else if (target.classList.contains('memory_minus')) MMinusClicked();
-    else if (target.classList.contains('power')) powerClicked();
+    else if (target.classList.contains('power')) if (powerClicked()) toggleActiveBtn(target);
     logHistory();
 }

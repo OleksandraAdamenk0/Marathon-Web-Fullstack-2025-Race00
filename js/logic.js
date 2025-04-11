@@ -74,6 +74,16 @@ function processExpression() {
     }
 }
 
+function restClicked() {
+    const inputResult = processExpression();
+    if (inputResult === "Indeterminate") return false;
+    setOutputText(inputResult / 100);
+    setInputText("");
+    historyString = "";
+    defaultSign = "-";
+    power = false;
+}
+
 export function setMemoryNumber(input) {
     memory = input;
     writeMemory(input);
@@ -129,7 +139,7 @@ export function operationClicked(operation) {
             printToInput(" x ");
             break;
         case "%":
-            printToInput(" % ");
+            restClicked();
             break;
         case "+":
             printToInput(" + ");
@@ -161,6 +171,7 @@ export function powerClicked() {
     if ((input === "" || isNaN(input[input.length - 1]) && !input.endsWith("</sup>"))) return false;
     power = !power;
     historyString = historyString +  "^";
+    return true;
     // printToInput("");
 }
 
