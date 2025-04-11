@@ -1,3 +1,5 @@
+import {writeMemory} from "./memory.js";
+
 let defaultSign = "-";
 let memory = 0;
 
@@ -52,8 +54,9 @@ function processExpression(input) {
     }
 }
 
-function setMemoryNumber(input) {
+export function setMemoryNumber(input) {
     memory = input;
+    writeMemory(input);
 }
 
 export function MRClicked() {
