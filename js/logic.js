@@ -168,8 +168,11 @@ export function signClicked(sign) {
 
     if (lastSpace === -1) currentNumber = input;
     else currentNumber = input.slice(lastSpace + 1);
+
     if (currentNumber[0] === sign) return false;
+    if (currentNumber[0] === "(") currentNumber = currentNumber.slice(1);
     deleteInput(currentNumber.length);
+
     if (sign === undefined || sign === null) {
         if (currentNumber[0] === "-") {
             sign = "+"
@@ -184,6 +187,7 @@ export function signClicked(sign) {
             defaultSign = defaultSign === "-"? "+" : "-";
         }
     } else if (currentNumber[0] === "-" || currentNumber[0] === "+") currentNumber = currentNumber.slice(1);
+
     printToInput(`${sign}${currentNumber}`)
     return false;
 }
