@@ -12,7 +12,7 @@ A modern, responsive calculator built with a focus on smooth user experience and
 
 * √ Square root and ^ exponentiation support
 
-* 🧠 Expression evaluation with brackets (e.g., (6 + 3) × 2^(2 + 2))
+* 🧠 Expression evaluation with brackets ()
 
 * ➕➖ Handles both positive and negative numbers
 
